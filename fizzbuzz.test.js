@@ -39,8 +39,54 @@ describe("FizzBuzz 単体テスト", () => {
       ["3", "入力値は正の整数でなければなりません"],
       [{}, "入力値は正の整数でなければなりません"],
       [[], "入力値は正の整数でなければなりません"],
+      [BigInt(3), "入力値は正の整数でなければなりません"],
+      [Symbol("sym"), "入力値は正の整数でなければなりません"],
+      [() => 3, "入力値は正の整数でなければなりません"],
+      [new Date(), "入力値は正の整数でなければなりません"],
+      [Promise.resolve(3), "入力値は正の整数でなければなりません"],
     ])("fizzbuzz(%p) throws", (input, message) => {
       expect(() => fizzbuzz(input)).toThrow(message);
     });
   });
+
+  // 追加テストケース
+  describe("追加テスト", () => {
+    test("非常に大きな数値", () => {
+      expect(fizzbuzz(3000000)).toBe("FizzBuzz");
+      expect(fizzbuzz(3000003)).toBe("Fizz");
+      expect(fizzbuzz(3000005)).toBe("Buzz");
+    });
+
+    test("Number.MAX_SAFE_INTEGER", () => {
+      // 3, 5, 15の倍数でないのでそのまま返す
+      expect(fizzbuzz(Number.MAX_SAFE_INTEGER)).toBe(Number.MAX_SAFE_INTEGER);
+    });
+
+    test("Number.MAX_SAFE_INTEGER+1は例外", () => {
+      expect(() => fizzbuzz(Number.MAX_SAFE_INTEGER + 1)).toThrow();
+    });
+
+    test("数値文字列は例外", () => {
+      expect(() => fizzbuzz("15")).toThrow();
+    });
+
+    test("空文字は例外", () => {
+      expect(() => fizzbuzz("")).toThrow();
+    });
+
+    test("NaNは例外", () => {
+      expect(() => fizzbuzz(NaN)).toThrow();
+    });
+
+    test("Infinityは例外", () => {
+      expect(() => fizzbuzz(Infinity)).toThrow();
+    });
+  });
+
+  // パフォーマンステスト（雛形）
+  // test("100万回実行しても例外が出ない", () => {
+  //   for (let i = 1; i <= 1000000; i++) {
+  //     fizzbuzz(i);
+  //   }
+  // });
 });
