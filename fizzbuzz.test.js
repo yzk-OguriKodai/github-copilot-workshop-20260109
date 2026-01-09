@@ -1,4 +1,4 @@
-const { fizzbuzz } = require("./fizzbuzz-lib");
+const { fizzbuzz } = require("./fizzbuzz");
 
 describe("FizzBuzz 単体テスト", () => {
   describe("15の倍数 (FizzBuzz)", () => {
@@ -28,8 +28,19 @@ describe("FizzBuzz 単体テスト", () => {
     );
   });
 
-  // 失敗例（意図的に間違った期待値）
-  test('fizzbuzz(3) === "Buzz" (失敗例)', () => {
-    expect(fizzbuzz(3)).toBe("Buzz");
+  // 入力値検証テスト
+  describe("入力値バリデーション", () => {
+    test.each([
+      [0, "入力値は正の整数でなければなりません"],
+      [-1, "入力値は正の整数でなければなりません"],
+      [1.5, "入力値は正の整数でなければなりません"],
+      [null, "入力値は正の整数でなければなりません"],
+      [undefined, "入力値は正の整数でなければなりません"],
+      ["3", "入力値は正の整数でなければなりません"],
+      [{}, "入力値は正の整数でなければなりません"],
+      [[], "入力値は正の整数でなければなりません"],
+    ])("fizzbuzz(%p) throws", (input, message) => {
+      expect(() => fizzbuzz(input)).toThrow(message);
+    });
   });
 });
