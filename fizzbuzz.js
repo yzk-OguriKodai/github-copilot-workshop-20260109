@@ -6,12 +6,7 @@ function fizzbuzz(n) {
     !Number.isFinite(n) ||
     !Number.isInteger(n) ||
     n <= 0 ||
-    n > Number.MAX_SAFE_INTEGER ||
-    typeof n === "bigint" ||
-    typeof n === "symbol" ||
-    typeof n === "function" ||
-    Object.prototype.toString.call(n) === "[object Promise]" ||
-    Object.prototype.toString.call(n) === "[object Date]"
+    n > Number.MAX_SAFE_INTEGER
   ) {
     throw new Error("入力値は正の整数でなければなりません");
   }
